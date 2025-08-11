@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useNotification } from '@/pages/index/hooks/use-notification';
-import LogoutButton from '../index/logout-button.vue';
-import LoginView from './login-view.vue';
+import LogoutButton from './logout-button.vue';
+import LoginView from './login.vue';
 
 useNotification();
 </script>
