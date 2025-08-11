@@ -15,7 +15,7 @@ export function useLoginValidation() {
     password: yup.string().required('a senha é obrigatória'),
   });
 
-  const validate = async (credential: Credential) => {
+  const run = async (credential: Credential) => {
     await schema.validate(credential, { abortEarly: false });
     validation.value = {};
   };
@@ -32,9 +32,9 @@ export function useLoginValidation() {
     validation.value = errors;
   };
 
-  const execute = async (credential: Credential) => {
+  const validate = async (credential: Credential) => {
     try {
-      await validate(credential);
+      await run(credential);
     } catch (err) {
       if (err instanceof yup.ValidationError) {
         onError(err);
@@ -46,6 +46,6 @@ export function useLoginValidation() {
 
   return {
     validation,
-    execute,
+    validate,
   };
 }
