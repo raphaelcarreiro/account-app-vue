@@ -7,11 +7,11 @@ import { useApp } from '@/providers/app/use-app';
 
 const { login } = useAuth();
 const loading = ref(false);
-const { validation, execute } = useLoginValidation();
+const { validation, validate } = useLoginValidation();
 const { user } = useApp();
 
 function handleSubmit(credential: Credential) {
-  execute(credential).then(() => handleLogin(credential));
+  validate(credential).then(() => handleLogin(credential));
 }
 
 function handleLogin(credential: Credential) {
