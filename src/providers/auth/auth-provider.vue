@@ -3,30 +3,44 @@ import type { AxiosError } from 'axios';
 import { authProviderKey, type AuthContext, type Credential } from './use-auth';
 import { api } from '@/services/api';
 import { useApp } from '../app/use-app';
-import { onMounted, provide, ref } from 'vue';
+import { onMounted, provide, ref, watch } from 'vue';
 
 const { setUser } = useApp();
-const isRefreshing = ref(false);
+const isLoading = ref(true);
+const isUserOn = ref(false);
 
 onMounted(() => {
   refreshToken();
 });
 
-async function refreshToken() {
-  isRefreshing.value = true;
+watch(
+  () => isUserOn.value,
+  value => (value ? whoami() : setUser(null)),
+);
 
+async function refreshToken(): Promise<void> {
   try {
-    const response = await api.post('/refresh-token');
-    setUser(response.data);
-  } finally {
-    isRefreshing.value = false;
+    await api.post('/refresh-token');
+    isUserOn.value = true;
+  } catch {
+    isLoading.value = false;
   }
+}
+
+async function whoami(): Promise<void> {
+  api
+    .get('/whoami')
+    .then(async response => {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      setUser(response.data);
+    })
+    .finally(() => (isLoading.value = false));
 }
 
 async function login(credential: Credential) {
   const tryLogin = async (credential: Credential) => {
-    const response = await api.post('/login', credential);
-    setUser(response.data);
+    await api.post('/login', credential);
+    isUserOn.value = true;
   };
 
   const onError = (err: unknown) => {
@@ -48,13 +62,13 @@ async function login(credential: Credential) {
 
 async function logout() {
   await api.post('/logout');
-  setUser(null);
+  isUserOn.value = false;
 }
 
 provide<AuthContext>(authProviderKey, {
   login,
   logout,
-  isRefreshing,
+  isLoading,
 });
 </script>
 
