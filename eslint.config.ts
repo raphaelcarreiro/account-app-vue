@@ -20,6 +20,7 @@ export default defineConfigWithVueTs(
     rules: {
       '@typescript-eslint/no-unused-vars': 'warn',
       'prettier/prettier': 'error',
+      'vue/multi-word-component-names': 'off',
     },
     plugins: {
       prettier: prettierPlugin,
