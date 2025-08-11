@@ -8,7 +8,7 @@ export interface Credential {
 export interface AuthContext {
   login(credential: Credential): Promise<void>;
   logout(): void;
-  isRefreshing: Ref<boolean>;
+  isLoading: Ref<boolean>;
 }
 
 export const authProviderKey: InjectionKey<AuthContext> = Symbol('auth');
