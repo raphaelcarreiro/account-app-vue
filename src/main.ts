@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import App from './App.vue';
+import App from './app.vue';
 import router from './router';
 import ElementPlus from 'element-plus';
 import ptBR from 'element-plus/es/locale/lang/pt-br';
