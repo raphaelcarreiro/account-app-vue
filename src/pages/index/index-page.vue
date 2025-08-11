@@ -1,14 +1,16 @@
 <script lang="ts" setup>
 import { useNotification } from '@/pages/index/hooks/use-notification';
 import LogoutButton from './logout-button.vue';
-import LoginView from './login.vue';
+import Login from './login.vue';
+import SplashScreen from './splash-screen.vue';
 
 useNotification();
 </script>
 
 <template>
   <main>
-    <LoginView />
+    <SplashScreen />
+    <Login />
     <LogoutButton />
   </main>
 </template>
